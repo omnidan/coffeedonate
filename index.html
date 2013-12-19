@@ -11,8 +11,9 @@
     <title>Donate me coffee!</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet"> <!-- for debugging: change to css/bootstrap.css -->
-    <link href="css/app.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -23,12 +24,64 @@
 
 <body>
 
-
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <i class="fa fa-coffee fa-5x"></i>
+            </div>
+            <div class="col-md-10">
+                <h1>Buy me a coffee!</h1>
+                <span id="price-eur">2.00</span><i class='fa fa-euro'></i> |
+                <span id="price-usd"></span><i class='fa fa-dollar'></i> |
+                <span id="price-btc"></span><i class='fa fa-btc'></i>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- JavaScript placed at the end of the document so the pages load faster -->
-<script src="js/jquery-2.0.3.min.js"></script> <!-- for debugging: change to js/jquery-2.0.3.js -->
-<script src="js/git.js"></script>
-<script src="js/main.js"></script>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/bitcoinprices.js"></script>
+
+<script>
+    $(document).ready(function() {
+        bitcoinprices.init({
+
+            // Where we get bitcoinaverage data
+            url: "https://api.bitcoinaverage.com/ticker/all",
+
+            // Which of bitcoinaverages value we use to present prices
+            marketRateVariable: "24h_avg",
+
+            // Which currencies are in shown to the user
+            currencies: ["BTC", "USD", "EUR"],
+
+            // Special currency symbol artwork
+            symbols: {
+                "BTC": "<i class='fa fa-btc'></i>"
+            },
+
+            // Which currency we show user by the default if
+            // no currency is selected
+            defaultCurrency: "BTC",
+
+            // How the user is able to interact with the prices
+            ux : {
+                // Make everything with data-btc-price HTML attribute clickable
+                clickPrices : false,
+
+                // Build Bootstrap dropdown menu for currency switching
+                menu : false
+            }
+        });
+
+        $(document).bind('marketdataavailable', function () {
+            $('#price-usd').html(bitcoinprices.convert(2.00, 'EUR', 'USD').toFixed(2));
+            $('#price-btc').html(bitcoinprices.convert(2.00, 'EUR', 'BTC').toFixed(5));
+        });
+    });
+</script>
 
 </body>
 </html>
