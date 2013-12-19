@@ -24,17 +24,34 @@
 
 <body>
 
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <i class="fa fa-coffee fa-5x"></i>
-            </div>
-            <div class="col-md-10">
-                <h1>Buy me a coffee!</h1>
-                <span id="price-eur">2.00</span><i class='fa fa-euro'></i> |
-                <span id="price-usd"></span><i class='fa fa-dollar'></i> |
-                <span id="price-btc"></span><i class='fa fa-btc'></i>
+<div class="mainframe">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row-container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i id="main-coffee" class="fa fa-coffee fa-5x"></i>
+                        <button type="button" class="btn btn-default" id="add-cup">
+                            <i class="fa fa-plus"></i> <i class="fa fa-coffee"></i>
+                        </button>
+                        <!-- TODO: Improve design of +coffee button -->
+                    </div>
+                    <div id="moar-coffee" style="display: none;">
+
+                    </div>
+                    <div id="much-moar-coffee" style="display: none;">
+                        <span id="coffee-cups"></span> x <i class="fa fa-coffee"></i> <!-- TODO: allow people to enter amount manually -->
+                        <!-- TODO: update total price -->
+                    </div>
+                    <div id="main-box" class="col-md-10">
+                        <h1>Buy me coffee!</h1>
+                        <span id="price-eur"></span> <i class='fa fa-euro'></i> |
+                        <span id="price-usd"></span> <i class='fa fa-dollar'></i> |
+                        <span id="price-btc"></span> <i class='fa fa-btc'></i>
+                        <!-- TODO: improve the style of this -->
+                        <!-- TODO: add donate buttons -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -45,6 +62,39 @@
 <script src="js/bitcoinprices.js"></script>
 
 <script>
+    var coffee = 1;
+
+    function addCoffee() {
+        if (coffee == 1) {
+            $("#moar-coffee").addClass('col-md-2');
+            $("#main-box").removeClass('col-md-10');
+            $("#main-box").addClass('col-md-8');
+
+            $("#moar-coffee").show();
+        }
+
+        if (coffee <= 10) {
+            $("#moar-coffee").append('<i class="fa fa-coffee"></i> ');
+        } else {
+            $("#moar-coffee").empty();
+            $("#moar-coffee").removeClass('col-md-2');
+            $("#moar-coffee").hide();
+
+            $("#much-moar-coffee").show();
+            $("#much-moar-coffee").addClass('col-md-2');
+            $("#coffee-cups").html(coffee);
+        }
+
+        coffee += 1;
+        updatePrices();
+    }
+
+    function updatePrices() {
+        $('#price-eur').html((2.00 * coffee).toFixed(2));
+        $('#price-usd').html(bitcoinprices.convert(2.00 * coffee, 'EUR', 'USD').toFixed(2));
+        $('#price-btc').html(bitcoinprices.convert(2.00 * coffee, 'EUR', 'BTC').toFixed(5));
+    }
+
     $(document).ready(function() {
         bitcoinprices.init({
 
@@ -77,8 +127,15 @@
         });
 
         $(document).bind('marketdataavailable', function () {
-            $('#price-usd').html(bitcoinprices.convert(2.00, 'EUR', 'USD').toFixed(2));
-            $('#price-btc').html(bitcoinprices.convert(2.00, 'EUR', 'BTC').toFixed(5));
+            updatePrices();
+        });
+
+        $('#main-coffee').click(function () {
+            addCoffee();
+        });
+
+        $('#add-cup').click(function () {
+            addCoffee();
         });
     });
 </script>
