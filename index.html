@@ -185,12 +185,6 @@
         updatePrices();
     }
 
-    function pullLTC() {
-        $.getJSON('https://btc-e.com/api/2/ltc_usd/ticker', function (data) {
-            console.log(data);
-        });
-    }
-
     function updatePrices() {
         $('#price-eur').html((2.00).toFixed(2));
         $('#price-usd').html(bitcoinprices.convert(2.00, 'EUR', 'USD').toFixed(2));
@@ -231,7 +225,6 @@
                 menu : false
             }
         });
-        pullLTC();
 
         $(document).bind('marketdataavailable', function () {
             updatePrices();
