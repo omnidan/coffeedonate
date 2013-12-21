@@ -30,11 +30,18 @@
             <div class="row-container">
                 <div class="row">
                     <div class="col-md-2">
-                        <img class="avatar" src="https://1.gravatar.com/avatar/6aef44154244dcabdb8ed0a24fec23d3?s=100">
+                        <img class="avatar" class="img-circle" src="http://placehold.it/100x100"><!-- Insert avatar url here -->
                     </div>
                     <div class="col-md-10">
-                        <h1>Daniel Bugl <span class="username">(omnidan)</span></h1>
-                        <h4>software architect and web developer/designer</h4>
+                        <h1>
+                            Your name<!-- Insert your name here -->
+                            <span class="username"> (
+                                username<!-- Insert github username here -->
+                                )</span>
+                        </h1>
+                        <h4>
+                            I do this and that<!-- Insert tagline here -->
+                        </h4>
                     </div>
                 </div>
             </div>
@@ -68,12 +75,11 @@
                         </div>
                     </div>
                     <div id="main-box" class="col-md-10">
-                        <h1>Buy me coffee!</h1>
+                        <h1>Buy coffee for me...</h1>
                         <span id="price-total-eur"></span> <i class='fa fa-euro'></i> |
                         <span id="price-total-usd"></span> <i class='fa fa-dollar'></i> |
                         <span id="price-total-btc"></span> <i class='fa fa-btc'></i>
                         <!-- TODO: improve the style of this -->
-                        <!-- TODO: add donate buttons -->
                     </div>
                 </div>
             </div>
@@ -82,7 +88,37 @@
 
     <div class="contents">
         <div class="container">
-
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>...with Bitcoin!</h2>
+                    <p>
+                        [Placeholder for button]<!-- Insert bitcoin button here -->
+                    </p>
+                    <p>
+                        If you have a bitcoin wallet, you can donate me some with the information above. If you want to
+                        donate me a coffee, make sure to enter the bitcoin amount in the box above.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h2>...with Paypal!</h2>
+                    <p>
+                        [Placeholder for button]<!-- Insert paypal button here -->
+                    </p>
+                    <p>
+                        If you don't have bitcoin, you can donate me money for coffee via Paypal. Please note that
+                        paypal charges fees for donations, so if you can, use bitcoin.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h2>...with Flattr!</h2>
+                    <p>
+                        [Placeholder for button]<!-- Insert flattr button here -->
+                    </p>
+                    <p>
+                        Just press the button above to donate me some money via flattr!
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -142,6 +178,12 @@
         updatePrices();
     }
 
+    function pullLTC() {
+        $.getJSON('https://btc-e.com/api/2/ltc_usd/ticker', function (data) {
+            console.log(data);
+        });
+    }
+
     function updatePrices() {
         $('#price-eur').html((2.00).toFixed(2));
         $('#price-usd').html(bitcoinprices.convert(2.00, 'EUR', 'USD').toFixed(2));
@@ -182,6 +224,7 @@
                 menu : false
             }
         });
+        pullLTC();
 
         $(document).bind('marketdataavailable', function () {
             updatePrices();
