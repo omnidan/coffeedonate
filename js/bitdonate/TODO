@@ -1,0 +1,4 @@
+ * I kind of want to re-do the whole thing in order to drop the need for jquery, but seriously lack the time and willpower for it.
+ * Use blockchain.info api directly to get donation count back
+ * Maybe change the design
+ * Maybe use font-awesome instead of the png icon
